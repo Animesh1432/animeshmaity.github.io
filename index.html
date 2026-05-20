@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Animesh Maity — Business Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#04040c;
+  --s1:#080814;
+  --s2:#0d0d1c;
+  --s3:#121224;
+  --b1:rgba(255,255,255,.05);
+  --b2:rgba(255,255,255,.09);
+  --b3:rgba(255,255,255,.14);
+  --t1:#f2f2ff;
+  --t2:#8888aa;
+  --t3:#44445a;
+  --t4:#22223a;
+  --g:#39ffb0;
+  --gd:rgba(57,255,176,.07);
+  --gb:rgba(57,255,176,.18);
+  --gbb:rgba(57,255,176,.35);;
+  --pu:#a78bfa;
+  --pud:rgba(167,139,250,.07);
+  --pub:rgba(167,139,250,.2);
+  --am:#fbbf24;
+  --amd:rgba(251,191,36,.07);
+  --ro:#fb7185;
+  --rod:rgba(251,113,133,.07);
+  --bl:#60a5fa;
+  --bld:rgba(96,165,250,.07);
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Sora',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t2);font-family:var(--sans);font-weight:300;overflow-x:hidden;line-height:1.6;}
+
+/* ─── CURSOR ─── */
+#cur{position:fixed;width:8px;height:8px;background:var(--g);border-radius:50%;pointer-events:none;z-index:9000;transform:translate(-50%,-50%);transition:width .18s,height .18s,background .18s;}
+#cur.big{width:40px;height:40px;background:rgba(57,255,176,.06);border:1px solid var(--gb);}
+#cur2{position:fixed;width:28px;height:28px;border:1px solid rgba(57,255,176,.2);border-radius:50%;pointer-events:none;z-index:8999;transform:translate(-50%,-50%);transition:left .08s,top .08s;}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:700;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;border-bottom:1px solid var(--b1);background:rgba(4,4,12,.85);backdrop-filter:blur(24px);}
+.nav-l{display:flex;align-items:center;gap:.75rem;}
+.nav-pulse{width:7px;height:7px;background:var(--g);border-radius:50%;animation:glow 2.2s ease-in-out infinite;}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(57,255,176,.6);}50%{box-shadow:0 0 0 8px rgba(57,255,176,0);}}
+.nav-brand{font-family:var(--mono);font-size:11px;color:var(--t1);letter-spacing:.12em;}
+.nav-links{display:flex;gap:1.75rem;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:10px;color:var(--t3);text-decoration:none;letter-spacing:.1em;transition:color .2s;text-transform:uppercase;}
+.nav-links a:hover{color:var(--g);}
+.nav-r{display:flex;align-items:center;gap:.75rem;}
+.nav-badge{font-family:var(--mono);font-size:9px;padding:4px 12px;border:1px solid var(--gb);color:var(--g);border-radius:20px;letter-spacing:.1em;animation:borderPulse 2s ease-in-out infinite;}
+@keyframes borderPulse{0%,100%{border-color:rgba(57,255,176,.18);}50%{border-color:rgba(57,255,176,.5);}}
+.nav-hire{font-family:var(--mono);font-size:10px;padding:7px 18px;background:var(--g);color:#000;border-radius:3px;text-decoration:none;font-weight:600;letter-spacing:.08em;transition:all .2s;border:1px solid var(--g);}
+.nav-hire:hover{background:transparent;color:var(--g);}
+
+/* ─── HERO BRAIN SECTION ─── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7rem 2rem 3rem;position:relative;overflow:hidden;}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(57,255,176,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,176,.02) 1px,transparent 1px);background-size:44px 44px;}
+.hero-radial{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(57,255,176,.04) 0%,transparent 70%);}
+
+/* ─── BRAIN CANVAS AREA ─── */
+.brain-universe{position:relative;width:min(700px,90vw);height:min(700px,90vw);margin:0 auto;}
+#brainCanvas{position:absolute;inset:0;width:100%;height:100%;}
+
+/* Brain text overlay — identity */
+.brain-center-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);text-align:center;pointer-events:none;z-index:10;}
+.bc-name{font-family:var(--sans);font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:800;color:var(--t1);line-height:1;letter-spacing:-.03em;margin-bottom:.2rem;}
+.bc-role{font-family:var(--mono);font-size:clamp(8px,1.5vw,11px);color:var(--g);letter-spacing:.18em;text-transform:uppercase;}
+
+/* Node tooltip */
+#tooltip{position:fixed;background:var(--s2);border:1px solid var(--gb);border-radius:6px;padding:.75rem 1rem;max-width:240px;pointer-events:none;z-index:800;opacity:0;transition:opacity .2s;backdrop-filter:blur(12px);}
+.tt-tag{font-family:var(--mono);font-size:8px;color:var(--g);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.3rem;}
+.tt-title{font-family:var(--sans);font-size:.85rem;font-weight:600;color:var(--t1);margin-bottom:.3rem;line-height:1.3;}
+.tt-val{font-family:var(--mono);font-size:.8rem;color:var(--g);font-weight:600;}
+.tt-desc{font-size:.75rem;color:var(--t2);line-height:1.5;margin-top:.25rem;}
+
+/* Brain legend */
+.brain-legend{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:1.5rem;}
+.bl-item{display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.08em;}
+.bl-dot{width:8px;height:8px;border-radius:50%;}
+
+/* ─── HERO TEXT BELOW BRAIN ─── */
+.hero-text{text-align:center;max-width:640px;margin:2rem auto 0;}
+.hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--t3);text-transform:uppercase;margin-bottom:1rem;}
+.hero-h{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;color:var(--t1);line-height:1.1;letter-spacing:-.03em;margin-bottom:.75rem;}
+.hero-h em{font-style:italic;color:var(--g);font-weight:300;}
+.hero-sub{font-size:.95rem;color:var(--t2);line-height:1.8;margin-bottom:2rem;}
+.hero-sub strong{color:var(--t1);font-weight:600;}
+.hero-btns{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;}
+.hbtn{font-family:var(--mono);font-size:10px;padding:11px 24px;border-radius:4px;text-decoration:none;letter-spacing:.1em;transition:all .2s;border:1px solid;font-weight:600;}
+.hbtn-p{background:var(--g);color:#000;border-color:var(--g);}
+.hbtn-p:hover{background:transparent;color:var(--g);}
+.hbtn-s{background:transparent;color:var(--t3);border-color:var(--b2);}
+.hbtn-s:hover{border-color:var(--gb);color:var(--g);}
+
+/* ─── SECTION BASE ─── */
+.section{padding:5rem 2rem;}
+.sec-wrap{max-width:1100px;margin:0 auto;}
+.sec-eyebrow{display:flex;align-items:center;gap:1rem;margin-bottom:.6rem;}
+.sec-num{font-family:var(--mono);font-size:9px;color:var(--t4);letter-spacing:.18em;}
+.sec-line{height:1px;flex:1;background:var(--b1);}
+.sec-tag{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.14em;text-transform:uppercase;}
+.sec-h{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:var(--t1);letter-spacing:-.03em;line-height:1.1;margin-bottom:.6rem;}
+.sec-h em{font-style:italic;color:var(--g);font-weight:300;}
+.sec-sub{font-size:.88rem;color:var(--t3);line-height:1.8;max-width:540px;margin-bottom:3rem;}
+
+/* ─── METRICS ─── */
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--b1);border:1px solid var(--b1);border-radius:8px;overflow:hidden;margin-bottom:4rem;}
+.met{background:var(--s1);padding:1.5rem 1.1rem;position:relative;overflow:hidden;transition:background .2s;}
+.met:hover{background:var(--s2);}
+.met::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--g),transparent);opacity:0;transition:opacity .3s;}
+.met:hover::after{opacity:1;}
+.met-n{font-family:var(--sans);font-size:1.9rem;font-weight:800;color:var(--g);line-height:1;letter-spacing:-.05em;}
+.met-l{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.08em;line-height:1.5;margin-top:.4rem;}
+
+/* ─── CASE FILES ─── */
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b1);border-radius:8px;overflow:hidden;}
+.case{background:var(--s1);padding:1.75rem;position:relative;transition:background .2s;overflow:hidden;}
+.case:hover{background:var(--s2);}
+.case-accent{position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s;}
+.case:hover .case-accent{opacity:1;}
+.ca-g{background:linear-gradient(90deg,var(--g),transparent);}
+.ca-a{background:linear-gradient(90deg,var(--am),transparent);}
+.ca-p{background:linear-gradient(90deg,var(--pu),transparent);}
+.ca-r{background:linear-gradient(90deg,var(--ro),transparent);}
+.ca-b{background:linear-gradient(90deg,var(--bl),transparent);}
+.case-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+.case-id{font-family:var(--mono);font-size:8px;color:var(--t4);letter-spacing:.15em;}
+.cbadge{font-family:var(--mono);font-size:8px;padding:3px 8px;border-radius:2px;border:1px solid;letter-spacing:.07em;}
+.cbg{color:var(--g);border-color:var(--gb);background:var(--gd);}
+.cba{color:var(--am);border-color:rgba(251,191,36,.25);background:var(--amd);}
+.cbp{color:var(--pu);border-color:var(--pub);background:var(--pud);}
+.cbr{color:var(--ro);border-color:rgba(251,113,133,.25);background:var(--rod);}
+.cbb{color:var(--bl);border-color:rgba(96,165,250,.25);background:var(--bld);}
+.case-problem{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.08em;margin-bottom:.3rem;}
+.case-problem::before{content:'PROBLEM ';color:var(--t4);letter-spacing:.15em;}
+.case-title{font-size:1rem;font-weight:700;color:var(--t1);line-height:1.2;letter-spacing:-.02em;margin-bottom:.2rem;}
+.case-org{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.06em;margin-bottom:1rem;}
+.case-impact{border-left:2px solid var(--g);padding:.6rem .85rem;background:var(--gd);border-radius:0 3px 3px 0;margin-bottom:1rem;}
+.ci-l{font-family:var(--mono);font-size:7px;color:var(--g);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.2rem;}
+.ci-t{font-size:.83rem;color:var(--t1);line-height:1.5;font-weight:300;}
+.ci-t b{color:var(--g);font-weight:600;}
+.case-desc{font-size:.8rem;color:var(--t3);line-height:1.75;margin-bottom:.85rem;}
+.case-tags{display:flex;flex-wrap:wrap;gap:.3rem;}
+.ctag{font-family:var(--mono);font-size:8px;padding:2px 7px;border-radius:2px;color:var(--t4);border:1px solid var(--b1);background:var(--bg);letter-spacing:.04em;}
+
+/* ─── TIMELINE ─── */
+.tl{position:relative;padding-left:2rem;display:flex;flex-direction:column;gap:0;}
+.tl::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(180deg,var(--g) 0%,var(--b1) 100%);}
+.tl-item{position:relative;padding-bottom:2.5rem;}
+.tl-dot{position:absolute;left:-2rem;top:6px;width:9px;height:9px;background:var(--bg);border:1px solid var(--g);border-radius:50%;transform:translateX(-4px);}
+.tl-dot.off{border-color:var(--b2);}
+.tl-type{font-family:var(--mono);font-size:8px;padding:2px 8px;border-radius:2px;display:inline-block;margin-bottom:.5rem;letter-spacing:.1em;}
+.tl-full{border:1px solid var(--gb);color:var(--g);background:var(--gd);}
+.tl-free{border:1px solid rgba(251,191,36,.25);color:var(--am);background:var(--amd);}
+.tl-co{font-size:1.15rem;font-weight:700;color:var(--t1);letter-spacing:-.02em;margin-bottom:.15rem;}
+.tl-period{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.08em;margin-bottom:.15rem;}
+.tl-role{font-family:var(--mono);font-size:9px;color:var(--g);letter-spacing:.12em;text-transform:uppercase;margin:.55rem 0 .5rem;}
+.tl-desc{font-size:.84rem;color:var(--t3);line-height:1.8;max-width:580px;}
+.tl-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.65rem;}
+.chip{font-family:var(--mono);font-size:8px;padding:3px 9px;border-radius:2px;letter-spacing:.06em;}
+.chip-g{border:1px solid var(--gb);color:var(--g);background:var(--gd);}
+.chip-a{border:1px solid rgba(251,191,36,.25);color:var(--am);background:var(--amd);}
+.chip-b{border:1px solid rgba(96,165,250,.25);color:var(--bl);background:var(--bld);}
+
+/* ─── SKILLS ─── */
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--b1);border:1px solid var(--b1);border-radius:8px;overflow:hidden;margin-bottom:3rem;}
+.sg{background:var(--s1);padding:1.5rem;}
+.sg-h{font-family:var(--mono);font-size:9px;color:var(--g);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.4rem;}
+.sg-h::before{content:'';width:14px;height:1px;background:var(--g);}
+.sg-items{display:flex;flex-direction:column;gap:.3rem;}
+.sk{font-size:.8rem;color:var(--t2);padding:.35rem .5rem;border-radius:3px;border:1px solid transparent;transition:all .2s;cursor:default;}
+.sk:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
+.certs{display:flex;gap:.75rem;flex-wrap:wrap;}
+.cert{background:var(--s1);border:1px solid var(--b2);border-radius:6px;padding:.85rem 1.1rem;display:flex;align-items:center;gap:.7rem;transition:border-color .2s;}
+.cert:hover{border-color:var(--gb);}
+.cert-ico{font-size:16px;}
+.cert-n{font-size:.8rem;font-weight:600;color:var(--t1);margin-bottom:1px;}
+.cert-s{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.04em;}
+
+/* ─── CONTACT ─── */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.contact-big{font-size:clamp(2rem,4.5vw,4rem);font-weight:800;color:var(--t1);line-height:1;letter-spacing:-.04em;margin-bottom:1rem;}
+.contact-big em{font-style:italic;color:var(--g);font-weight:300;}
+.contact-p{font-size:.88rem;color:var(--t3);line-height:1.8;margin-bottom:2rem;}
+.clinks{display:flex;flex-direction:column;gap:.4rem;}
+.clink{display:flex;align-items:center;gap:.65rem;font-family:var(--mono);font-size:10px;color:var(--t3);text-decoration:none;padding:.6rem .75rem;border-radius:5px;transition:all .2s;letter-spacing:.05em;border:1px solid transparent;}
+.clink:hover{background:var(--gd);color:var(--g);border-color:var(--gb);}
+.clink-ic{width:30px;height:30px;border:1px solid var(--b2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.status-card{background:var(--s1);border:1px solid var(--b2);border-radius:10px;overflow:hidden;}
+.sc-top{padding:1rem 1.25rem;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:.5rem;}
+.sc-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:glow 2s infinite;}
+.sc-title{font-family:var(--mono);font-size:9px;color:var(--g);letter-spacing:.12em;}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1.25rem;border-bottom:1px solid var(--b1);font-size:.82rem;}
+.sc-row:last-of-type{border:none;}
+.sc-k{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.08em;}
+.sc-v{color:var(--t2);}
+.sc-vg{color:var(--g);font-family:var(--mono);font-size:9px;}
+.sc-foot{padding:1.25rem;}
+.sc-btn{display:block;width:100%;padding:.9rem;background:var(--g);color:#000;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-align:center;text-decoration:none;border-radius:5px;transition:all .2s;border:1px solid var(--g);}
+.sc-btn:hover{background:transparent;color:var(--g);}
+
+/* ─── FOOTER ─── */
+footer{border-top:1px solid var(--b1);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+footer p{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.08em;}
+footer span{color:var(--g);}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.rv.on{opacity:1;transform:none;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  nav{padding:.75rem 1.25rem;}
+  .nav-links{display:none;}
+  .hero{padding:6rem 1.25rem 2.5rem;}
+  .section{padding:3.5rem 1.25rem;}
+  .metrics{grid-template-columns:repeat(3,1fr);}
+  .cases{grid-template-columns:1fr;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .contact-wrap{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:.5rem;text-align:center;}
+}
+@media(max-width:600px){
+  .nav-r .nav-badge{display:none;}
+  .metrics{grid-template-columns:repeat(2,1fr);}
+  .skills-grid{grid-template-columns:1fr;}
+  .brain-legend{gap:1rem;}
+  .hero-btns{flex-direction:column;align-items:center;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<div id="tooltip">
+  <div class="tt-tag" id="tt-tag"></div>
+  <div class="tt-title" id="tt-title"></div>
+  <div class="tt-val" id="tt-val"></div>
+  <div class="tt-desc" id="tt-desc"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-l">
+    <div class="nav-pulse"></div>
+    <span class="nav-brand">ANIMESH MAITY</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#cases">Cases</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-r">
+    <span class="nav-badge">OPEN TO WORK</span>
+    <a href="#contact" class="nav-hire">Hire Me →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-radial"></div>
+
+  <!-- BRAIN UNIVERSE -->
+  <div class="brain-universe">
+    <canvas id="brainCanvas"></canvas>
+    <div class="brain-center-text">
+      <div class="bc-name">Animesh Maity</div>
+      <div class="bc-role">Business Analyst</div>
+    </div>
+  </div>
+
+  <div class="brain-legend">
+    <div class="bl-item"><div class="bl-dot" style="background:#39ffb0"></div>Piston Pay</div>
+    <div class="bl-item"><div class="bl-dot" style="background:#fbbf24"></div>Organic Studios</div>
+    <div class="bl-item"><div class="bl-dot" style="background:#fb7185"></div>Legal Tech</div>
+    <div class="bl-item"><div class="bl-dot" style="background:#a78bfa"></div>IQSOL</div>
+    <div class="bl-item"><div class="bl-dot" style="background:#60a5fa"></div>Rxefy</div>
+  </div>
+
+  <div class="hero-text">
+    <div class="hero-eyebrow">// Portfolio · Business Analyst · 5 Industries</div>
+    <h1 class="hero-h">Every node is a <em>problem solved.</em><br>Every line is a system built.</h1>
+    <p class="hero-sub">I find the friction in your operations and <strong>build the system that removes it.</strong> From the first stakeholder interview to UAT sign-off and automation in production.</p>
+    <div class="hero-btns">
+      <a href="#cases" class="hbtn hbtn-p">Explore Case Files ↓</a>
+      <a href="#contact" class="hbtn hbtn-s">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="section" style="padding-top:0;">
+<div class="sec-wrap">
+  <div class="metrics rv">
+    <div class="met"><div class="met-n" data-target="95">0</div><div class="met-l">% MANUAL REPORTING<br>TIME ELIMINATED</div></div>
+    <div class="met"><div class="met-n" data-target="500">0</div><div class="met-l">+ USERS ON ONE<br>PLATFORM (TRACKSHOOT)</div></div>
+    <div class="met"><div class="met-n" data-target="10">0</div><div class="met-l">K+ DAILY TRANSACTIONS<br>AUTO-MONITORED</div></div>
+    <div class="met"><div class="met-n" data-target="50">0</div><div class="met-l">K+ WEEKLY RECORDS<br>PROCESSED VIA ETL</div></div>
+    <div class="met"><div class="met-n" data-target="66">0</div><div class="met-l">% COST CUT ON<br>SMS OUTREACH</div></div>
+  </div>
+</div>
+</section>
+
+<!-- CASE FILES -->
+<section class="section" id="cases">
+<div class="sec-wrap">
+  <div class="sec-eyebrow"><span class="sec-num">01</span><div class="sec-line"></div><span class="sec-tag">Case Files</span></div>
+  <h2 class="sec-h">Problems I've <em>solved.</em></h2>
+  <p class="sec-sub">Every case starts with a problem. The impact box is the answer. Everything else is how I got there.</p>
+  <div class="cases rv">
+
+    <div class="case">
+      <div class="case-accent ca-a"></div>
+      <div class="case-head"><span class="case-id">CASE-001 · ORGANIC STUDIOS</span><span class="cbadge cba">Freelance · Film Tech</span></div>
+      <div class="case-problem">Scattered tools — no source of truth from shoot to billing</div>
+      <div class="case-title">TrackShoot — Film Production Management</div>
+      <div class="case-org">trackshoot.in · Requirements + Ops Tech + Zoho Integration</div>
+      <div class="case-impact"><div class="ci-l">Outcome</div><div class="ci-t">Unified the entire production business on one platform — <b>500+ users</b> collaborating from shoot scheduling to invoice without a single manual handoff.</div></div>
+      <p class="case-desc">Led full BA lifecycle for a film & video production tracking platform. Stakeholder interviews across creative, crew, and finance. Mapped end-to-end workflows, wrote requirements, handled ops-tech layer. Delivered Zoho Books integration as the critical last mile.</p>
+      <div class="case-tags"><span class="ctag">Stakeholder Interviews</span><span class="ctag">Requirements</span><span class="ctag">Zoho Books</span><span class="ctag">ERP Integration</span><span class="ctag">Process Mapping</span></div>
+    </div>
+
+    <div class="case">
+      <div class="case-accent ca-r"></div>
+      <div class="case-head"><span class="case-id">CASE-002 · CONFIDENTIAL CLIENT</span><span class="cbadge cbr">Freelance · LegalTech</span></div>
+      <div class="case-problem">Untested platform — lawyer matching, case filing, consultations</div>
+      <div class="case-title">Online Lawyer Hiring Platform — BA & UAT</div>
+      <div class="case-org">Legal Tech Startup · BA + Functional Testing + Sign-off</div>
+      <div class="case-impact"><div class="ci-l">Outcome</div><div class="ci-t">Delivered <b>verified functional quality</b> across all critical user flows — client onboarding, lawyer matching, case filing, consultation booking — before public launch.</div></div>
+      <p class="case-desc">BA and manual UAT tester for a legal tech startup. Wrote requirements, authored and executed test cases, ran functional testing across all user journeys, filed structured bug reports, and verified fixes through to sign-off.</p>
+      <div class="case-tags"><span class="ctag">Business Analysis</span><span class="ctag">Manual UAT</span><span class="ctag">Test Case Writing</span><span class="ctag">Bug Reporting</span><span class="ctag">Sign-off</span></div>
+    </div>
+
+    <div class="case">
+      <div class="case-accent ca-g"></div>
+      <div class="case-head"><span class="case-id">CASE-003 · PISTON PAY</span><span class="cbadge cbg">Full-time · Fuel Tech</span></div>
+      <div class="case-problem">10,000+ daily transactions reviewed manually — anomalies missed</div>
+      <div class="case-title">Fuel Price Intelligence & Transaction Audit System</div>
+      <div class="case-org">Piston Technologies Inc. · Mar 2026 · Data Ops</div>
+      <div class="case-impact"><div class="ci-l">Outcome</div><div class="ci-t">Eliminated daily manual review. <b>250+ gas stations and 200+ fleet accounts</b> monitored automatically — anomalies, negative margins, suspicious activity surfaced in a structured daily report.</div></div>
+      <p class="case-desc">Designed an intelligent monitoring layer between gas stations and fleet operators. Detects pricing anomalies, revenue leakage, selective overcharging, overnight price shifts, suspicious driver activity. 11-section configurable report with idempotent deduplication.</p>
+      <div class="case-tags"><span class="ctag">Apps Script</span><span class="ctag">Business Intelligence</span><span class="ctag">Anomaly Detection</span><span class="ctag">Financial Analysis</span></div>
+    </div>
+
+    <div class="case">
+      <div class="case-accent ca-g"></div>
+      <div class="case-head"><span class="case-id">CASE-004 · PISTON PAY</span><span class="cbadge cbg">Full-time · Fuel Tech</span></div>
+      <div class="case-problem">50K+ weekly records processed manually — revenue attribution guesswork</div>
+      <div class="case-title">Revenue Management & Analytics System</div>
+      <div class="case-org">Piston Technologies Inc. · Feb 2026 · ETL + Analytics</div>
+      <div class="case-impact"><div class="ci-l">Outcome</div><div class="ci-t"><b>95% reduction in manual reporting time.</b> Real-time financial decision-making across 200+ customer partnerships — ARR projections on demand.</div></div>
+      <p class="case-desc">Stakeholder analysis to diagnose manual workflow pain points. Designed multi-tiered rebate calculation logic, ETL pipelines with duplicate detection, analytics dashboard with ARR projections and customer-wise revenue attribution.</p>
+      <div class="case-tags"><span class="ctag">ETL Design</span><span class="ctag">Stakeholder Analysis</span><span class="ctag">Revenue Modelling</span><span class="ctag">BRD</span><span class="ctag">Dashboard</span></div>
+    </div>
+
+    <div class="case">
+      <div class="case-accent ca-g"></div>
+      <div class="case-head"><span class="case-id">CASE-005 · PISTON PAY</span><span class="cbadge cbg">Full-time · CS Ops</span></div>
+      <div class="case-problem">Support load opaque — resourcing decisions made without data</div>
+      <div class="case-title">Customer Support Analytics Dashboard</div>
+      <div class="case-org">Piston Technologies Inc. · Jan 2026 · Business Analysis</div>
+      <div class="case-impact"><div class="ci-l">Outcome</div><div class="ci-t">Shifted CS from <b>reactive Excel exports to a self-serve diagnostic tool</b> — engineering prioritisation, agent load balancing, and resourcing decisions all data-driven.</div></div>
+      <p class="case-desc">Analysed 400+ tickets to surface root-cause drivers. Built KPI framework, interactive filter layer, auto-surfacing insights view. Found most volume in just a few categories — enabling targeted product fixes over scaling CS headcount.</p>
+      <div class="case-tags"><span class="ctag">Root Cause Analysis</span><span class="ctag">KPI Framework</span><span class="ctag">Customer Journey</span><span class="ctag">Dashboard Design</span></div>
+    </div>
+
+    <div class="case">
+      <div class="case-accent ca-g"></div>
+      <div class="case-head"><span class="case-id">CASE-006 · PISTON PAY</span><span class="cbadge cbg">Full-time · Sales Strategy</span></div>
+      <div class="case-problem">"Which states should we focus on?" — no data, only intuition</div>
+      <div class="case-title">Geographic Revenue & Sales Territory Dashboard</div>
+      <div class="case-org">Piston Technologies Inc. · Dec 2025 · Market Analysis</div>
+      <div class="case-impact"><div class="ci-l">Outcome</div><div class="ci-t">Replaced gut-feel territory planning with a <b>live scenario model</b> — coverage %, reps needed, revenue per rep, with toggle-based simulation for leadership.</div></div>
+      <p class="case-desc">Formalised vague market question into a structured decision framework. Mapped state-level gas station density and brand coverage. Built interactive scenario dashboard: toggle brands, adjust coverage, see instant impact on reps and revenue.</p>
+      <div class="case-tags"><span class="ctag">Market Analysis</span><span class="ctag">Revenue Modelling</span><span class="ctag">Scenario Planning</span><span class="ctag">Sales Strategy</span></div>
+    </div>
+
+    <div class="case">
+      <div class="case-accent ca-p"></div>
+      <div class="case-head"><span class="case-id">CASE-007 · IQSOL</span><span class="cbadge cbp">Freelance · HR Tech</span></div>
+      <div class="case-problem">HR staff issuing documents manually — error-prone, time-consuming</div>
+      <div class="case-title">HR Document Automation System</div>
+      <div class="case-org">Iquester Solutions LLP · System Design + Ops</div>
+      <div class="case-impact"><div class="ci-l">Outcome</div><div class="ci-t"><b>Zero technical knowledge required</b> for HR staff to issue Internship Certificates and Offer Letters — automated end to end, error-free at scale.</div></div>
+      <p class="case-desc">Designed and operate the full system — Google Forms intake, Apps Script processing engine, Drive-based template management. Gendered pronoun logic, computed duration fields, ordinal date formatting. Authored complete non-technical user guide.</p>
+      <div class="case-tags"><span class="ctag">System Design</span><span class="ctag">Drive API</span><span class="ctag">Document Automation</span><span class="ctag">HR Ops</span></div>
+    </div>
+
+    <div class="case">
+      <div class="case-accent ca-g"></div>
+      <div class="case-head"><span class="case-id">CASE-008 · PISTON PAY</span><span class="cbadge cbg">Full-time · Market Intel</span></div>
+      <div class="case-problem">Market report built on ~2× overstated fuel spend figures</div>
+      <div class="case-title">Fleet Fuel Market Research — 33-Sector Audit</div>
+      <div class="case-org">Piston Technologies Inc. · 2025 · Primary Source Research</div>
+      <div class="case-impact"><div class="ci-l">Outcome</div><div class="ci-t">Caught a <b>~2× overstatement</b> before it reached leadership. All 33 sectors classified VERIFIED / ESTIMATED / DO-NOT-USE — preventing a materially wrong report.</div></div>
+      <p class="case-desc">Cross-referenced 33 fleet sectors against ATA, FHWA, USDA, SEC 10-Ks, IFDA, NEMSIS. Compiled 76 contacts across 57 companies. Pushed back transparently on data reliability when errors surfaced.</p>
+      <div class="case-tags"><span class="ctag">Primary Source Research</span><span class="ctag">Data Quality</span><span class="ctag">ATA · FHWA · USDA</span><span class="ctag">Sector Analysis</span></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section" id="timeline">
+<div class="sec-wrap">
+  <div class="sec-eyebrow"><span class="sec-num">02</span><div class="sec-line"></div><span class="sec-tag">Experience</span></div>
+  <h2 class="sec-h">Where I've <em>worked.</em></h2>
+  <p class="sec-sub">Two full-time roles. Three freelance engagements. Five industries. One consistent approach.</p>
+  <div class="tl rv">
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <span class="tl-type tl-full">Full-time</span>
+      <div class="tl-co">Piston Technologies Inc.</div>
+      <div class="tl-period">Sept 2025 — Present · Kolkata / Remote</div>
+      <div class="tl-role">Business Analyst · Data Ops & Automation</div>
+      <p class="tl-desc">QR-based fleet fuel payment platform. Build internal automation tooling, audit systems, and analytical frameworks serving CS, Ops, and Sales teams.</p>
+      <div class="tl-chips"><span class="chip chip-g">10K+ txns/day</span><span class="chip chip-g">95% reporting time saved</span><span class="chip chip-g">33-sector audit</span><span class="chip chip-g">~66% SMS cost cut</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot off"></div>
+      <span class="tl-type tl-free">Freelance</span>
+      <div class="tl-co">Organic Studios</div>
+      <div class="tl-period">2025 · Film & Video Production</div>
+      <div class="tl-role">Business Analyst · Ops Tech · ERP Integration</div>
+      <p class="tl-desc">Led full BA lifecycle for TrackShoot — a production management platform for the film industry. Delivered Zoho Books integration unifying shoot-to-billing for 500+ users.</p>
+      <div class="tl-chips"><span class="chip chip-a">500+ users unified</span><span class="chip chip-a">Zoho Books</span><span class="chip chip-a">Shoot-to-billing</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot off"></div>
+      <span class="tl-type tl-free">Freelance</span>
+      <div class="tl-co">Confidential Client</div>
+      <div class="tl-period">2024 · Legal Tech · India</div>
+      <div class="tl-role">Business Analyst · Manual UAT Tester</div>
+      <p class="tl-desc">BA and UAT engagement for a legal tech startup. Requirements, test case writing, functional testing across all user flows, bug reporting, and fix verification through to sign-off.</p>
+      <div class="tl-chips"><span class="chip chip-b">Requirements</span><span class="chip chip-b">Manual UAT</span><span class="chip chip-b">Test Cases</span><span class="chip chip-b">Bug Reporting</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot off"></div>
+      <span class="tl-type tl-free">Freelance</span>
+      <div class="tl-co">IQSOL — Iquester Solutions LLP</div>
+      <div class="tl-period">2024 · Iquester Solutions LLP</div>
+      <div class="tl-role">System Designer · HR Ops Operator</div>
+      <p class="tl-desc">Designed and operate the complete HR document automation system. Zero technical knowledge required from HR staff to issue certificates and offer letters at scale.</p>
+      <div class="tl-chips"><span class="chip chip-b">System Design</span><span class="chip chip-b">HR Automation</span><span class="chip chip-b">Drive API</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot off"></div>
+      <span class="tl-type tl-full">Full-time</span>
+      <div class="tl-co">Rxefy</div>
+      <div class="tl-period">May 2023 — Sept 2025 · Healthcare SaaS · India</div>
+      <div class="tl-role">Business Analyst</div>
+      <p class="tl-desc">Requirement gathering, sprint coordination, and product delivery for a healthcare SaaS platform. Bridged technical and non-technical stakeholders across full product cycles.</p>
+      <div class="tl-chips"><span class="chip chip-g">BRD / FSD</span><span class="chip chip-g">Agile · Scrum</span><span class="chip chip-g">Healthcare SaaS</span></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- STACK -->
+<section class="section" id="stack">
+<div class="sec-wrap">
+  <div class="sec-eyebrow"><span class="sec-num">03</span><div class="sec-line"></div><span class="sec-tag">Stack & Credentials</span></div>
+  <h2 class="sec-h">Tools I use to <em>get it done.</em></h2>
+  <p class="sec-sub">BA-first. Automation-capable. Tested across five industries.</p>
+  <div class="skills-grid rv">
+    <div class="sg">
+      <div class="sg-h">BA Core</div>
+      <div class="sg-items">
+        <div class="sk">Requirements Gathering</div>
+        <div class="sk">BRD / FSD Writing</div>
+        <div class="sk">Process Mapping</div>
+        <div class="sk">Stakeholder Management</div>
+        <div class="sk">KPI Framework Design</div>
+        <div class="sk">Root Cause Analysis</div>
+        <div class="sk">Agile / Scrum</div>
+        <div class="sk">Manual UAT</div>
+        <div class="sk">Test Case Writing</div>
+      </div>
+    </div>
+    <div class="sg">
+      <div class="sg-h">Automation & Engineering</div>
+      <div class="sg-items">
+        <div class="sk">Google Apps Script</div>
+        <div class="sk">Python</div>
+        <div class="sk">Selenium</div>
+        <div class="sk">Office Scripts (TypeScript)</div>
+        <div class="sk">Flask · SQLite</div>
+        <div class="sk">Leaflet.js</div>
+        <div class="sk">AI Prompt Engineering</div>
+      </div>
+    </div>
+    <div class="sg">
+      <div class="sg-h">Data & Analytics</div>
+      <div class="sg-items">
+        <div class="sk">Google Sheets · Excel</div>
+        <div class="sk">ETL Pipeline Design</div>
+        <div class="sk">Dashboard Design</div>
+        <div class="sk">Revenue Modelling</div>
+        <div class="sk">Market Research</div>
+        <div class="sk">Primary Source Audit</div>
+        <div class="sk">Scenario Planning</div>
+      </div>
+    </div>
+    <div class="sg">
+      <div class="sg-h">Platforms & APIs</div>
+      <div class="sg-items">
+        <div class="sk">SAP S/4HANA</div>
+        <div class="sk">Zoho Books</div>
+        <div class="sk">Dolibarr</div>
+        <div class="sk">OpenPhone API</div>
+        <div class="sk">Google Drive API</div>
+        <div class="sk">Slack API</div>
+      </div>
+    </div>
+  </div>
+  <div class="certs rv">
+    <div class="cert"><span class="cert-ico">🏅</span><div><div class="cert-n">Agile Scrum Foundation</div><div class="cert-s">Simplilearn</div></div></div>
+    <div class="cert"><span class="cert-ico">🏅</span><div><div class="cert-n">Data Analytics Job Simulation</div><div class="cert-s">Deloitte Australia · Forage</div></div></div>
+    <div class="cert"><span class="cert-ico">🏅</span><div><div class="cert-n">Data Analyst Certification</div><div class="cert-s">OneRoadmap</div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+<div class="sec-wrap">
+  <div class="sec-eyebrow"><span class="sec-num">04</span><div class="sec-line"></div><span class="sec-tag">Contact</span></div>
+  <div class="contact-wrap rv">
+    <div>
+      <h2 class="contact-big">Let's solve<br>something <em>together.</em></h2>
+      <p class="contact-p">Open to full-time BA and Ops Specialist roles — on-site, hybrid, or remote. Also available for freelance consulting. Based in Kolkata; open to Hyderabad, Noida, Bengaluru, and remote-first teams globally.</p>
+      <div class="clinks">
+        <a href="mailto:animeshmaity8972007622@gmail.com" class="clink"><span class="clink-ic">✉</span>animeshmaity8972007622@gmail.com</a>
+        <a href="https://www.linkedin.com/in/animeshmaity-analyst" target="_blank" class="clink"><span class="clink-ic">in</span>linkedin.com/in/animeshmaity-analyst</a>
+        <a class="clink"><span class="clink-ic">📍</span>Kolkata, West Bengal, India</a>
+      </div>
+    </div>
+    <div class="status-card">
+      <div class="sc-top"><div class="sc-dot"></div><span class="sc-title">AVAILABILITY STATUS</span></div>
+      <div class="sc-row"><span class="sc-k">STATUS</span><span class="sc-vg">● Open to work</span></div>
+      <div class="sc-row"><span class="sc-k">ROLE FIT</span><span class="sc-v">Business Analyst · Ops Specialist</span></div>
+      <div class="sc-row"><span class="sc-k">ENGAGEMENT</span><span class="sc-v">Full-time · Freelance · Consulting</span></div>
+      <div class="sc-row"><span class="sc-k">WORK MODE</span><span class="sc-v">On-site · Hybrid · Remote</span></div>
+      <div class="sc-row"><span class="sc-k">LOCATIONS</span><span class="sc-v">Kolkata · Hyderabad · Noida · Bengaluru</span></div>
+      <div class="sc-row"><span class="sc-k">RESPONSE</span><span class="sc-vg">&lt; 24 hours</span></div>
+      <div class="sc-foot"><a href="mailto:animeshmaity8972007622@gmail.com" class="sc-btn">→ Send a Message</a></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <p>© 2026 <span>Animesh Maity</span> · Kolkata, India</p>
+  <p>Hosted on <span>GitHub Pages</span> · <a href="https://www.linkedin.com/in/animeshmaity-analyst" style="color:var(--t3);text-decoration:none;" target="_blank">LinkedIn ↗</a></p>
+</footer>
+
+<script>
+/* ════════════════════════════════════════
+   CUSTOM CURSOR
+════════════════════════════════════════ */
+const cur=document.getElementById('cur');
+const cur2=document.getElementById('cur2');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+function animCur(){
+  cx+=(mx-cx)*.12;cy+=(my-cy)*.12;
+  cur2.style.left=cx+'px';cur2.style.top=cy+'px';
+  requestAnimationFrame(animCur);
+}
+animCur();
+document.querySelectorAll('a,button,.case,.met,.sk,.cert,.hbtn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+if('ontouchstart' in window){cur.style.display='none';cur2.style.display='none';}
+
+/* ════════════════════════════════════════
+   BRAIN CANVAS
+════════════════════════════════════════ */
+const canvas=document.getElementById('brainCanvas');
+const ctx=canvas.getContext('2d');
+const tt=document.getElementById('tooltip');
+
+function resize(){
+  const size=canvas.parentElement.offsetWidth;
+  canvas.width=size;canvas.height=size;
+}
+resize();
+window.addEventListener('resize',()=>{resize();buildNodes();});
+
+const COLORS={piston:'#39ffb0',organic:'#fbbf24',legal:'#fb7185',iqsol:'#a78bfa',rxefy:'#60a5fa'};
+
+const NODE_DATA=[
+  // CENTER
+  {id:'brain',x:.5,y:.5,r:28,color:'#39ffb0',label:'Animesh Maity',tag:'CORE',val:'Business Analyst',desc:'5 industries · Full BA lifecycle · Kolkata',fixed:true},
+  // PISTON cluster
+  {id:'p1',x:.78,y:.28,r:16,color:COLORS.piston,label:'Transaction Audit',tag:'PISTON PAY',val:'10K+ txns/day',desc:'Eliminated daily manual review across 250+ gas stations'},
+  {id:'p2',x:.85,y:.5,r:15,color:COLORS.piston,label:'Revenue Analytics',tag:'PISTON PAY',val:'95% time saved',desc:'ETL system for 50K+ weekly records across 200+ partners'},
+  {id:'p3',x:.78,y:.72,r:13,color:COLORS.piston,label:'CS Dashboard',tag:'PISTON PAY',val:'400+ tickets',desc:'Self-serve diagnostic tool for CS ops team'},
+  {id:'p4',x:.65,y:.85,r:12,color:COLORS.piston,label:'Sales Territory',tag:'PISTON PAY',val:'33 states mapped',desc:'Scenario model replacing gut-feel territory planning'},
+  {id:'p5',x:.88,y:.35,r:11,color:COLORS.piston,label:'Market Audit',tag:'PISTON PAY',val:'33 sectors',desc:'Caught 2× overstatement before leadership report'},
+  {id:'p6',x:.88,y:.65,r:11,color:COLORS.piston,label:'SMS Automation',tag:'PISTON PAY',val:'~66% cost cut',desc:'400+ contacts · GSM-7 optimised · 69 test suite'},
+  // ORGANIC cluster
+  {id:'o1',x:.2,y:.22,r:17,color:COLORS.organic,label:'TrackShoot',tag:'ORGANIC STUDIOS',val:'500+ users',desc:'Film production platform — shoot to billing on one system'},
+  {id:'o2',x:.1,y:.38,r:12,color:COLORS.organic,label:'Zoho Integration',tag:'ORGANIC STUDIOS',val:'ERP Bridge',desc:'Connected production scheduling directly to billing'},
+  // LEGAL cluster
+  {id:'l1',x:.18,y:.62,r:15,color:COLORS.legal,label:'Lawyer Hiring Platform',tag:'LEGAL TECH',val:'Full UAT',desc:'BA + manual UAT for client-lawyer matching platform'},
+  {id:'l2',x:.1,y:.76,r:10,color:COLORS.legal,label:'Test Cases',tag:'LEGAL TECH',val:'Functional QA',desc:'Wrote and executed test cases across all user flows'},
+  // IQSOL cluster
+  {id:'q1',x:.38,y:.14,r:14,color:COLORS.iqsol,label:'HR Automation',tag:'IQSOL',val:'Zero manual',desc:'Automated Internship Certs and Offer Letters end-to-end'},
+  {id:'q2',x:.52,y:.1,r:10,color:COLORS.iqsol,label:'Doc Templates',tag:'IQSOL',val:'Drive API',desc:'Template system with pronoun logic and ordinal dates'},
+  // RXEFY
+  {id:'r1',x:.5,y:.88,r:13,color:COLORS.rxefy,label:'Rxefy — Healthcare',tag:'RXEFY',val:'Full-time BA',desc:'Requirements, sprint coordination, product delivery'},
+];
+
+const EDGES=[
+  ['brain','p1'],['brain','p2'],['brain','p3'],['brain','p4'],['brain','p5'],['brain','p6'],
+  ['brain','o1'],['brain','l1'],['brain','q1'],['brain','r1'],
+  ['p1','p2'],['p2','p3'],['p3','p4'],['p1','p5'],['p2','p6'],
+  ['o1','o2'],['l1','l2'],['q1','q2'],
+];
+
+let nodes=[];
+let particles=[];
+let animFrame=0;
+let hoveredNode=null;
+
+function buildNodes(){
+  const W=canvas.width;
+  nodes=NODE_DATA.map(d=>({
+    ...d,
+    px:d.x*W,py:d.y*W,
+    vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,
+    pulse:Math.random()*Math.PI*2,
+  }));
+}
+buildNodes();
+
+// Particle system along edges
+function spawnParticle(){
+  const edge=EDGES[Math.floor(Math.random()*EDGES.length)];
+  const a=nodes.find(n=>n.id===edge[0]);
+  const b=nodes.find(n=>n.id===edge[1]);
+  if(!a||!b)return;
+  particles.push({ax:a.px,ay:a.py,bx:b.px,by:b.py,t:0,speed:.004+Math.random()*.006,color:a.color,size:1.5+Math.random()*1.5});
+}
+
+function draw(){
+  animFrame++;
+  const W=canvas.width;
+  ctx.clearRect(0,0,W,W);
+
+  // Float nodes gently (non-fixed)
+  nodes.forEach(n=>{
+    if(n.fixed)return;
+    n.px+=n.vx; n.py+=n.vy;
+    // Gentle pull back to home
+    const hx=n.x*W,hy=n.y*W;
+    n.vx+=(hx-n.px)*.004;
+    n.vy+=(hy-n.py)*.004;
+    n.vx*=.98;n.vy*=.98;
+  });
+  // Update brain center
+  const brain=nodes.find(n=>n.id==='brain');
+  if(brain){brain.px=W*.5;brain.py=W*.5;}
+
+  // Draw edges
+  EDGES.forEach(([aid,bid])=>{
+    const a=nodes.find(n=>n.id===aid);
+    const b=nodes.find(n=>n.id===bid);
+    if(!a||!b)return;
+    const isHov=hoveredNode&&(hoveredNode.id===aid||hoveredNode.id===bid);
+    ctx.beginPath();
+    ctx.moveTo(a.px,a.py);
+    ctx.lineTo(b.px,b.py);
+    ctx.strokeStyle=isHov?a.color+'55':'rgba(255,255,255,0.05)';
+    ctx.lineWidth=isHov?1:.5;
+    ctx.stroke();
+  });
+
+  // Spawn + draw particles
+  if(animFrame%8===0)spawnParticle();
+  particles=particles.filter(p=>{
+    p.t+=p.speed;
+    if(p.t>1)return false;
+    const x=p.ax+(p.bx-p.ax)*p.t;
+    const y=p.ay+(p.by-p.ay)*p.t;
+    ctx.beginPath();
+    ctx.arc(x,y,p.size,0,Math.PI*2);
+    const alpha=Math.sin(p.t*Math.PI);
+    ctx.fillStyle=p.color+Math.floor(alpha*200).toString(16).padStart(2,'0');
+    ctx.fill();
+    return true;
+  });
+
+  // Draw nodes
+  nodes.forEach(n=>{
+    const isHov=hoveredNode&&hoveredNode.id===n.id;
+    const isBrain=n.id==='brain';
+    n.pulse+=.025;
+    const pulse=Math.sin(n.pulse);
+    const r=n.r+(isHov?4:0)+(isBrain?pulse*2:0);
+
+    // Glow
+    const glowR=r+(isHov?20:10);
+    const grd=ctx.createRadialGradient(n.px,n.py,r*.3,n.px,n.py,glowR);
+    grd.addColorStop(0,n.color+'33');
+    grd.addColorStop(1,'transparent');
+    ctx.beginPath();ctx.arc(n.px,n.py,glowR,0,Math.PI*2);
+    ctx.fillStyle=grd;ctx.fill();
+
+    // Ring (brain only)
+    if(isBrain){
+      ctx.beginPath();ctx.arc(n.px,n.py,r+8+pulse*3,0,Math.PI*2);
+      ctx.strokeStyle=n.color+'22';ctx.lineWidth=1;ctx.stroke();
+      ctx.beginPath();ctx.arc(n.px,n.py,r+16+pulse*2,0,Math.PI*2);
+      ctx.strokeStyle=n.color+'11';ctx.lineWidth=1;ctx.stroke();
+    }
+
+    // Node circle
+    ctx.beginPath();ctx.arc(n.px,n.py,r,0,Math.PI*2);
+    ctx.fillStyle=n.id==='brain'?'#07070f':n.color+'18';
+    ctx.fill();
+    ctx.strokeStyle=isHov?n.color:n.color+'66';
+    ctx.lineWidth=isHov?2:1;ctx.stroke();
+
+    // Label (non-brain, non-tiny)
+    if(!isBrain&&r>=11){
+      ctx.fillStyle=isHov?n.color:'rgba(255,255,255,0.55)';
+      ctx.font=`${Math.min(r*.55,10)}px 'IBM Plex Mono',monospace`;
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      // Wrap label
+      const words=n.label.split(' ');
+      if(words.length===1){
+        ctx.fillText(n.label,n.px,n.py);
+      } else {
+        const line1=words.slice(0,Math.ceil(words.length/2)).join(' ');
+        const line2=words.slice(Math.ceil(words.length/2)).join(' ');
+        const fs=Math.min(r*.5,9);
+        ctx.font=`${fs}px 'IBM Plex Mono',monospace`;
+        ctx.fillText(line1,n.px,n.py-fs*.65);
+        ctx.fillText(line2,n.px,n.py+fs*.65);
+      }
+    }
+  });
+
+  requestAnimationFrame(draw);
+}
+draw();
+
+// Mouse interaction on canvas
+canvas.addEventListener('mousemove',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const mx=(e.clientX-rect.left)*scaleX;
+  const my=(e.clientY-rect.top)*scaleY;
+  let found=null;
+  nodes.forEach(n=>{
+    const dx=n.px-mx,dy=n.py-my;
+    if(Math.sqrt(dx*dx+dy*dy)<n.r+8)found=n;
+  });
+  hoveredNode=found;
+  canvas.style.cursor=found?'pointer':'default';
+  if(found){
+    tt.style.opacity='1';
+    document.getElementById('tt-tag').textContent=found.tag;
+    document.getElementById('tt-title').textContent=found.label;
+    document.getElementById('tt-val').textContent=found.val;
+    document.getElementById('tt-desc').textContent=found.desc;
+    let tx=e.clientX+16,ty=e.clientY-10;
+    if(tx+250>window.innerWidth)tx=e.clientX-260;
+    if(ty+120>window.innerHeight)ty=e.clientY-130;
+    tt.style.left=tx+'px';tt.style.top=ty+'px';
+  } else {
+    tt.style.opacity='0';
+  }
+});
+canvas.addEventListener('mouseleave',()=>{hoveredNode=null;tt.style.opacity='0';});
+canvas.addEventListener('click',e=>{
+  if(hoveredNode&&hoveredNode.id!=='brain'){
+    const sec=document.getElementById('cases');
+    if(sec)sec.scrollIntoView({behavior:'smooth'});
+  }
+});
+// Touch support for brain
+canvas.addEventListener('touchstart',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const t=e.touches[0];
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const mx=(t.clientX-rect.left)*scaleX;
+  const my=(t.clientY-rect.top)*scaleY;
+  nodes.forEach(n=>{
+    const dx=n.px-mx,dy=n.py-my;
+    if(Math.sqrt(dx*dx+dy*dy)<n.r+12){
+      hoveredNode=n;
+      tt.style.opacity='1';
+      document.getElementById('tt-tag').textContent=n.tag;
+      document.getElementById('tt-title').textContent=n.label;
+      document.getElementById('tt-val').textContent=n.val;
+      document.getElementById('tt-desc').textContent=n.desc;
+      tt.style.left=(t.clientX+12)+'px';tt.style.top=(t.clientY-80)+'px';
+      setTimeout(()=>{tt.style.opacity='0';hoveredNode=null;},2500);
+    }
+  });
+},{passive:true});
+
+/* ════════════════════════════════════════
+   METRICS COUNTER ANIMATION
+════════════════════════════════════════ */
+const suffixes={95:'%',500:'+',10:'K+',50:'K+',66:'%'};
+function animateCount(el,target,suffix){
+  let cur=0;const dur=1400;const step=16;
+  const timer=setInterval(()=>{
+    cur+=step;const p=Math.min(cur/dur,1);
+    const eased=1-Math.pow(1-p,3);
+    const val=Math.round(eased*target);
+    el.textContent=val+suffix;
+    if(p>=1){el.textContent=target+suffix;clearInterval(timer);}
+  },step);
+}
+const metObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.met-n').forEach(el=>{
+        const t=parseInt(el.dataset.target);
+        animateCount(el,t,suffixes[t]||'');
+      });
+      metObs.unobserve(e.target);
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.metrics').forEach(el=>metObs.observe(el));
+
+/* ════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════ */
+const rvObs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('on'),i*40);rvObs.unobserve(e.target);}
+  });
+},{threshold:.07});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+
+/* ════════════════════════════════════════
+   NAV ACTIVE SECTION
+════════════════════════════════════════ */
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-200)cur=s.id;});
+  navLinks.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+cur?'var(--g)':'';});
+},{ passive:true });
+</script>
+</body>
+</html>
